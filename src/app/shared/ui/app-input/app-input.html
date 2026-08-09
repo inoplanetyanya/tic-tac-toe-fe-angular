@@ -1,0 +1,13 @@
+<div class="field-container">
+  <input
+    [value]="value()"
+    [placeholder]="placeholder()"
+    [type]="type()"
+    [class.has-error]="error()"
+    (input)="onInput($event)"
+  />
+
+  @if (error()) {
+    <span class="field-error">{{ error() }}</span>
+  }
+</div>
