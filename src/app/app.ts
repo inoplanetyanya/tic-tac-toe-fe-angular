@@ -1,18 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AppInput } from './shared/ui/app-input/app-input';
-import { AppButton } from './shared/ui/app-button/app-button';
+import { LoginForm } from '~features/auth/login-form/login-form';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, AppInput, AppButton],
+  imports: [RouterOutlet, LoginForm],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {
-  protected readonly title = signal('angular');
-
-  protected onButtonClick(): void {
-    console.log('asdf')
-  }
-}
+export class App {}

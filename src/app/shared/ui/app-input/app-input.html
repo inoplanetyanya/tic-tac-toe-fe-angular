@@ -1,5 +1,6 @@
-<div class="field-container">
+<div class="container">
   <input
+    class="input"
     [value]="value()"
     [placeholder]="placeholder()"
     [type]="type()"
@@ -7,7 +8,5 @@
     (input)="onInput($event)"
   />
 
-  @if (error()) {
-    <span class="field-error">{{ error() }}</span>
-  }
+  <span class="input-error">{{ error() }}</span>
 </div>

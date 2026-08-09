@@ -4,7 +4,7 @@ import { Component, input, output } from '@angular/core';
   selector: 'app-input',
   standalone: true,
   templateUrl: './app-input.html',
-  styleUrl: './app-input.scss'
+  styleUrl: './app-input.scss',
 })
 export class AppInput {
   value = input<string>('');
