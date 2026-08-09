@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthService } from '~api/auth/auth.service';
+import { LoginRequest } from '~api/auth/auth.service.types';
 import { LoginForm } from '~features/auth/login-form/login-form';
 
 @Component({
@@ -9,7 +11,9 @@ import { LoginForm } from '~features/auth/login-form/login-form';
   imports: [LoginForm],
 })
 export class LoginPage {
-  protected onLoginSubmit(credentials: { email: string; password: string }): void {
-    console.log('Page received valid data:', credentials);
+  private readonly authService = inject(AuthService);
+
+  protected onLoginSubmit(credentials: LoginRequest): void {
+    this.authService.loginMutation.mutate(credentials);
   }
 }
