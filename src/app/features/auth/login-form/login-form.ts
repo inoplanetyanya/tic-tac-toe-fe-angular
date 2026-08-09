@@ -50,7 +50,6 @@ export class LoginForm {
 
   private getFieldError(field: LoginFormFields): string {
     const control = this.form.get(field);
-    console.log(control);
 
     if (!control) {
       return '';

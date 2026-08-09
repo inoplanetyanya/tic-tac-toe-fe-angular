@@ -8,4 +8,8 @@ import { LoginForm } from '~features/auth/login-form/login-form';
   standalone: true,
   imports: [LoginForm],
 })
-export class LoginPage {}
+export class LoginPage {
+  protected onLoginSubmit(credentials: { email: string; password: string }): void {
+    console.log('Page received valid data:', credentials);
+  }
+}
