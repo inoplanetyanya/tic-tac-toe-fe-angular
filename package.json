@@ -1,6 +1,6 @@
 {
   "name": "angular",
-  "description": "tic-tac-toe NestJS backend",
+  "description": "tic-tac-toe Angular frontend",
   "author": "Daniil Stepanov aka inoplanetyanya",
   "private": true,
   "license": "SEE LICENSE IN LICENSE",
