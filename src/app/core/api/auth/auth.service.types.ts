@@ -6,3 +6,9 @@ export interface LoginRequest {
 export interface LoginResponse {
   access_token: string;
 }
+
+export interface RegisterRequest {
+  email: string;
+  password: string;
+  passwordConfirm: string;
+}

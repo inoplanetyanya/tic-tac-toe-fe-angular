@@ -5,41 +5,50 @@ import {
   DEFAULT_ERROR_TEXT,
   DEFAULT_TITLE,
   inputsPlaceholders,
-  LoginFormFields,
+  RegistrationFormFields,
   MIN_PASSWORD_LENGTH,
   validationErrors,
-} from './login-form.consts';
+} from './registration-form.consts';
 import { AppButton } from '~shared/ui/app-button/app-button';
 import { AppInput } from '~shared/ui/app-input/app-input';
-import { LoginRequest } from '~api/auth/auth.service.types';
+import {
+  createPasswordMatchValidator,
+} from '~features/auth/registration-form/registration-form.utils';
+import { RegisterRequest } from '~api/auth/auth.service.types';
 
 @Component({
-  selector: 'login-form',
+  selector: 'registration-form',
   standalone: true,
   imports: [ReactiveFormsModule, AppInput, AppButton],
-  templateUrl: './login-form.html',
-  styleUrl: './login-form.scss',
+  templateUrl: './registration-form.html',
+  styleUrl: './registration-form.scss',
 })
-export class LoginForm {
-  submitted = output<LoginRequest>();
+export class RegistrationForm {
+  submitted = output<RegisterRequest>();
 
   title = input<string>(DEFAULT_TITLE);
   buttonText = input<string>(DEFAULT_BUTTON_TEXT);
 
-  protected readonly Fields = LoginFormFields;
+  protected readonly Fields = RegistrationFormFields;
+
+  private passwordControl = new FormControl('', {
+    nonNullable: true,
+    validators: [Validators.required, Validators.minLength(MIN_PASSWORD_LENGTH)],
+  });
 
   protected readonly form = new FormGroup({
     email: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required, Validators.email],
     }),
-    password: new FormControl('', {
+    password: this.passwordControl,
+    passwordConfirm: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.minLength(MIN_PASSWORD_LENGTH)],
+      validators: [Validators.required, createPasswordMatchValidator(this.passwordControl)],
     }),
   });
 
-  private getFieldValue(field: LoginFormFields): string {
+  private getFieldValue(field: RegistrationFormFields): string {
     const control = this.form.get(field);
 
     if (!control) {
@@ -49,7 +58,7 @@ export class LoginForm {
     return control.value;
   }
 
-  private getFieldError(field: LoginFormFields): string {
+  private getFieldError(field: RegistrationFormFields): string {
     const control = this.form.get(field);
 
     if (!control) {
@@ -79,7 +88,7 @@ export class LoginForm {
     return errorText ?? DEFAULT_ERROR_TEXT;
   }
 
-  private onChangeField(field: LoginFormFields, value: string): void {
+  private onChangeField(field: RegistrationFormFields, value: string): void {
     const control = this.form.get(field);
 
     if (!control) {
@@ -90,7 +99,7 @@ export class LoginForm {
     control.markAsTouched();
   }
 
-  private getInputPlaceholder(field: LoginFormFields): string {
+  private getInputPlaceholder(field: RegistrationFormFields): string {
     return inputsPlaceholders[field] ?? '';
   }
 
@@ -108,6 +117,13 @@ export class LoginForm {
         value: this.getFieldValue(this.Fields.PASSWORD),
         error: this.getFieldError(this.Fields.PASSWORD),
         onChange: (value: string) => this.onChangeField(this.Fields.PASSWORD, value),
+      },
+
+      passwordConfirm: {
+        placeholder: this.getInputPlaceholder(this.Fields.PASSWORD_CONFIRM),
+        value: this.getFieldValue(this.Fields.PASSWORD_CONFIRM),
+        error: this.getFieldError(this.Fields.PASSWORD_CONFIRM),
+        onChange: (value: string) => this.onChangeField(this.Fields.PASSWORD_CONFIRM, value),
       },
     };
   }
