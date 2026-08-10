@@ -1,0 +1,36 @@
+<div class="container">
+  <form class="form" [formGroup]="form" (ngSubmit)="onFormSubmit()">
+    <h2 class="title">{{ title() }}</h2>
+
+    <div class="inputs">
+      <app-input
+        [placeholder]="inputs.email.placeholder"
+        [value]="inputs.email.value"
+        [error]="inputs.email.error"
+        (valueChange)="inputs.email.onChange($event)"
+      />
+
+      <app-input
+        [type]="'password'"
+        [placeholder]="inputs.password.placeholder"
+        [value]="inputs.password.value"
+        [error]="inputs.password.error"
+        (valueChange)="inputs.password.onChange($event)"
+      />
+
+      <app-input
+        [type]="'password'"
+        [placeholder]="inputs.passwordConfirm.placeholder"
+        [value]="inputs.passwordConfirm.value"
+        [error]="inputs.passwordConfirm.error"
+        (valueChange)="inputs.passwordConfirm.onChange($event)"
+      />
+    </div>
+
+    <div class="button">
+      <app-button type="submit" [disabled]="isDisabledButton">
+        {{ buttonText() }}
+      </app-button>
+    </div>
+  </form>
+</div>

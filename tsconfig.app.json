@@ -3,12 +3,14 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "types": []
+    "types": [],
+    "paths": {
+      "~shared/*": ["./src/app/shared/*"],
+      "~features/*": ["./src/app/features/*"],
+      "~pages/*": ["./src/app/pages/*"],
+      "~api/*": ["./src/app/core/api/*"]
+    }
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "src/**/*.spec.ts"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts"]
 }

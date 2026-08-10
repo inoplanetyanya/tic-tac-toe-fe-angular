@@ -1,0 +1,12 @@
+<div class="container">
+  <input
+    class="input"
+    [value]="value()"
+    [placeholder]="placeholder()"
+    [type]="type()"
+    [class.has-error]="error()"
+    (input)="onInput($event)"
+  />
+
+  <span class="input-error">{{ error() }}</span>
+</div>
