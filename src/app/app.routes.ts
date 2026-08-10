@@ -1,12 +1,17 @@
 import { Routes } from '@angular/router';
 
+export const enum AppPaths {
+  LOGIN = 'login',
+  REGISTRATION = 'registration'
+}
+
 export const routes: Routes = [
   {
-    path: 'login',
+    path: AppPaths.LOGIN,
     loadComponent: () => import('~pages/login-page/login-page').then((module) => module.LoginPage),
   },
   {
-    path: 'registration',
+    path: AppPaths.REGISTRATION,
     loadComponent: () =>
       import('~pages/registration-page/registration-page').then(
         (module) => module.RegistrationPage,
