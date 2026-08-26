@@ -1,14 +1,15 @@
 export interface LoginRequest {
-  email: string;
+  identity: string;
   password: string;
 }
 
 export interface LoginResponse {
-  access_token: string;
+  token_access: string;
 }
 
 export interface RegisterRequest {
   email: string;
+  username?: string;
   password: string;
   passwordConfirm: string;
 }

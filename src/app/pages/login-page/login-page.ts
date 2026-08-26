@@ -5,6 +5,7 @@ import { LoginRequest } from '~api/auth/auth.service.types';
 import { LoginForm } from '~features/auth/login-form/login-form';
 import { AppPaths } from '../../app.routes';
 import { AppButton } from "~shared/ui/app-button/app-button";
+import { LoginFormOutput } from '~features/auth/login-form/login-form.types';
 
 @Component({
   selector: 'login-page',
@@ -17,7 +18,11 @@ export class LoginPage {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
-  protected onLoginSubmit(credentials: LoginRequest): void {
+  protected onLoginSubmit(formOutput: LoginFormOutput): void {
+    const credentials = {
+      identity: formOutput.email,
+      password: formOutput.password,
+    }
     this.authService.loginMutation.mutate(credentials);
   }
 
