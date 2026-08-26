@@ -12,6 +12,7 @@ import {
 import { AppButton } from '~shared/ui/app-button/app-button';
 import { AppInput } from '~shared/ui/app-input/app-input';
 import { LoginRequest } from '~api/auth/auth.service.types';
+import { LoginFormOutput } from './login-form.types';
 
 @Component({
   selector: 'login-form',
@@ -21,7 +22,7 @@ import { LoginRequest } from '~api/auth/auth.service.types';
   styleUrl: './login-form.scss',
 })
 export class LoginForm {
-  submitted = output<LoginRequest>();
+  submitted = output<LoginFormOutput>();
 
   title = input<string>(DEFAULT_TITLE);
   buttonText = input<string>(DEFAULT_BUTTON_TEXT);

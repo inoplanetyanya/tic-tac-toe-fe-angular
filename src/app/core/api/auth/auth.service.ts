@@ -13,7 +13,11 @@ export class AuthService {
 
   loginMutation = injectMutation(() => ({
     mutationFn: (body: LoginRequest) => {
-      return lastValueFrom(this.http.post<LoginResponse>(`${BASE_URL}/auth/login`, body));
+      return lastValueFrom(
+        this.http.post<LoginResponse>(`${BASE_URL}/auth/login`, body, {
+          withCredentials: true,
+        }),
+      );
     },
   }));
 
