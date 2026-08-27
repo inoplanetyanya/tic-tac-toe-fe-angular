@@ -3,7 +3,11 @@ import { AuthService } from '../auth/auth.service';
 import { WEB_SOCKET_URL } from '~api/base-url';
 import { ChatMessage, WsMessage } from '~api/game/game-ws.service.types';
 import { Router } from '@angular/router';
-import { isChatMessage, isGameEndMessage, isGameStartMessage } from '~api/game/game-ws.service.utils';
+import {
+  isChatMessage,
+  isGameEndMessage,
+  isGameStartMessage,
+} from '~api/game/game-ws.service.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -43,8 +47,10 @@ export class GameWsService {
     };
   }
 
+  public isWaitingForTheGame = signal<boolean>(false);
   public connectToRandomGame() {
     this.sendMessage('/connect');
+    this.isWaitingForTheGame.set(true);
   }
 
   public sendMessage(msg: string): void {
@@ -65,6 +71,7 @@ export class GameWsService {
 
       if (isGameStartMessage(parsed)) {
         this.router.navigate(['/game']);
+        this.isWaitingForTheGame.set(false);
       }
 
       if (isGameEndMessage(parsed)) {
@@ -72,13 +79,12 @@ export class GameWsService {
       }
 
       if (isChatMessage(parsed)) {
-        this.chatHistory.set(this.chatHistory().concat(parsed))
+        this.chatHistory.set(this.chatHistory().concat(parsed));
       }
     } catch (err) {
       console.error('[WS ERROR] Message parsing error:', err);
     }
   }
-
 
   public disconnect(): void {
     if (this.socket) {

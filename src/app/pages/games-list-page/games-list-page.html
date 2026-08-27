@@ -1,4 +1,9 @@
 <div class="container">
+  <app-modal #gameWaitingModal
+    [isOpen]="gameService.isWaitingForTheGame()"
+  >
+    Waiting for opponent...
+  </app-modal>
   <div class="top">
     <app-button
       (click)="logout()"
