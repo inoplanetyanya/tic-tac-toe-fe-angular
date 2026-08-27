@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { AuthService } from '~api/auth/auth.service';
 import { GameWsService } from '~api/game/game-ws.service';
-import { GamesList } from '~features/auth/games-list/games-list';
+import { GamesList } from '~features/games-list/games-list';
 import { AppButton } from '~shared/ui/app-button/app-button';
 import { APP_BUTTON_VARIANT } from '~shared/ui/app-button/app-button.types';
 
@@ -17,8 +17,13 @@ export class GamesListPage {
   private gameService = inject(GameWsService);
   protected APP_BUTTON_VARIANT = APP_BUTTON_VARIANT;
 
-  public ngOnInit() {
-    this.gameService.connectWs();
+  constructor() {
+    effect(() => {
+      const isChecked = this.authService.isLocalStorageCheckedForToken();
+      if (isChecked) {
+        this.gameService.connectWs();
+      }
+    });
   }
 
   protected connectToRandomGame() {

@@ -1,15 +1,18 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { WEB_SOCKET_URL } from '~api/base-url';
+import { ChatMessage, WsMessage } from '~api/game/game-ws.service.types';
+import { Router } from '@angular/router';
+import { isChatMessage, isGameEndMessage, isGameStartMessage } from '~api/game/game-ws.service.utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameWsService {
   private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   private socket: WebSocket | null = null;
-
   public readonly isConnected = signal<boolean>(false);
 
   public connectWs(): void {
@@ -23,6 +26,7 @@ export class GameWsService {
 
       if (!token) {
         console.error('there is no token');
+        this.router.navigate(['/login']);
         return;
       }
 
@@ -49,9 +53,32 @@ export class GameWsService {
     }
   }
 
-  private handleServerMessage(message: string): void {
-    console.log('[WS Получено]:', message);
+  public chatHistory = signal<ChatMessage[]>([]);
+  public sendMessageToChat(message: string) {
+    this.sendMessage(`/chat ${message}`);
   }
+
+  private handleServerMessage(rawData: string): void {
+    try {
+      const parsed: WsMessage = JSON.parse(rawData);
+      console.log('[WS Received]:', parsed);
+
+      if (isGameStartMessage(parsed)) {
+        this.router.navigate(['/game']);
+      }
+
+      if (isGameEndMessage(parsed)) {
+        this.router.navigate(['/games-list']);
+      }
+
+      if (isChatMessage(parsed)) {
+        this.chatHistory.set(this.chatHistory().concat(parsed))
+      }
+    } catch (err) {
+      console.error('[WS ERROR] Message parsing error:', err);
+    }
+  }
+
 
   public disconnect(): void {
     if (this.socket) {

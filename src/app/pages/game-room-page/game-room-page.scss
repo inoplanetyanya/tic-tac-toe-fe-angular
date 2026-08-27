@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: safe center;
+  min-height: inherit;
+  gap: 2rem;
+  padding: 1rem;
+
+  .chat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    border: 3px solid var(--shadow-blue);
+    border-radius: 12px;
+    min-width: 400px;
+    height: fit-content;
+  }
+}

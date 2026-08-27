@@ -1,4 +1,4 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, effect, inject, signal } from '@angular/core';
 import { injectMutation } from '@tanstack/angular-query-experimental';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
@@ -14,9 +14,20 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
 
-  private readonly _accessToken = signal<string | null>(null);
-  public get accessToken() {
-    return this._accessToken;
+  public accessToken = signal<string | null>(localStorage.getItem('token_access'));
+
+  public isLocalStorageCheckedForToken = signal<boolean>(false);
+  constructor() {
+    effect(() => {
+      const value = this.accessToken();
+      if (!value) {
+        localStorage.removeItem('token_access');
+      } else {
+        localStorage.setItem('token_access', value);
+      }
+    });
+
+    this.isLocalStorageCheckedForToken.set(true);
   }
 
   loginMutation = injectMutation(() => ({
@@ -24,7 +35,7 @@ export class AuthService {
       return lastValueFrom(this.http.post<LoginResponse>(`${API_BASE_URL}/auth/login`, body));
     },
     onSuccess: (response: LoginResponse) => {
-      this._accessToken.set(response.token_access);
+      this.accessToken.set(response.token_access);
       this.router.navigate([AppPaths.GAMES_LIST]);
     },
   }));
@@ -36,7 +47,7 @@ export class AuthService {
   }));
 
   public logout(): void {
-    this._accessToken.set(null);
+    this.accessToken.set(null);
     this.router.navigate([AppPaths.LOGIN]);
   }
 }

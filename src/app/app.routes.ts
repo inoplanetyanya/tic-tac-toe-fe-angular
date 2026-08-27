@@ -4,6 +4,7 @@ export const enum AppPaths {
   LOGIN = 'login',
   REGISTRATION = 'registration',
   GAMES_LIST = 'games-list',
+  GAME_ROOM = 'game'
 }
 
 export const routes: Routes = [
@@ -22,6 +23,11 @@ export const routes: Routes = [
     path: AppPaths.GAMES_LIST,
     loadComponent: () =>
       import('~pages/games-list-page/games-list-page').then((module) => module.GamesListPage),
+  },
+    {
+    path: AppPaths.GAME_ROOM,
+    loadComponent: () =>
+      import('~pages/game-room-page/game-room-page').then((module) => module.GameRoomPage),
   },
   {
     path: '',

@@ -11,6 +11,7 @@ export class AppInput {
   placeholder = input<string>('');
   type = input<string>('text');
   error = input<string>('');
+  hideErrors = input<boolean>(false);
 
   valueChange = output<string>();
 
