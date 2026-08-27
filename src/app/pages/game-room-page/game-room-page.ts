@@ -1,6 +1,8 @@
-import { Component, inject, input } from "@angular/core";
-import { GameWsService } from "~api/game/game-ws.service";
-import { GameRoomChat } from "~features/game-room-chat/game-room-chat";
+import { Component, effect, inject, input } from '@angular/core';
+import { Router } from '@angular/router';
+import { GameWsService } from '~api/game/game-ws.service';
+import { GameRoomChat } from '~features/game-room-chat/game-room-chat';
+import { AppPaths } from '../../app.routes';
 
 @Component({
   selector: 'game-room-page',
@@ -10,7 +12,14 @@ import { GameRoomChat } from "~features/game-room-chat/game-room-chat";
   imports: [GameRoomChat],
 })
 export class GameRoomPage {
-  protected gameService = inject(GameWsService)
+  protected gameService = inject(GameWsService);
+  private router = inject(Router);
 
-
+  constructor() {
+    effect(() => {
+      if (!this.gameService.isConnected()) {
+        this.router.navigate([AppPaths.GAMES_LIST]);
+      }
+    });
+  }
 }
