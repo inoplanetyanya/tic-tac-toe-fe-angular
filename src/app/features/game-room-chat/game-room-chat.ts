@@ -26,7 +26,7 @@ export class GameRoomChat {
     });
   }
 
-  private chatContainer = viewChild<ElementRef<HTMLDivElement>>('chatContainer')
+  private chatContainer = viewChild<ElementRef<HTMLDivElement>>('chatContainer');
   private scrollChat(): void {
     const container = this.chatContainer()?.nativeElement;
     if (container) {
@@ -59,14 +59,12 @@ export class GameRoomChat {
   protected onFormSubmit(): void {
     if (this.form.valid) {
       const control = this.form.get('message');
-      console.log('control: ', control);
 
       if (!control) {
         return;
       }
 
       const gs = this.gameService();
-      console.log('gs: ', gs);
 
       if (!gs) {
         return;
