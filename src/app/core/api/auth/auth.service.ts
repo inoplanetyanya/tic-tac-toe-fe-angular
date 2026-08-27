@@ -4,15 +4,20 @@ import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { LoginRequest, LoginResponse, RegisterRequest } from './auth.service.types';
 import { API_BASE_URL } from '../base-url';
+import { Router } from '@angular/router';
+import { AppPaths } from '../../../app.routes';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
 
   private readonly _accessToken = signal<string | null>(null);
-  public readonly accessToken = this._accessToken.asReadonly;
+  public get accessToken() {
+    return this._accessToken;
+  }
 
   loginMutation = injectMutation(() => ({
     mutationFn: (body: LoginRequest) => {
@@ -20,6 +25,7 @@ export class AuthService {
     },
     onSuccess: (response: LoginResponse) => {
       this._accessToken.set(response.token_access);
+      this.router.navigate([AppPaths.GAMES_LIST]);
     },
   }));
 
@@ -31,5 +37,6 @@ export class AuthService {
 
   public logout(): void {
     this._accessToken.set(null);
+    this.router.navigate([AppPaths.LOGIN]);
   }
 }

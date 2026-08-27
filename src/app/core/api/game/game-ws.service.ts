@@ -12,7 +12,7 @@ export class GameWsService {
 
   public readonly isConnected = signal<boolean>(false);
 
-  public connect(): void {
+  public connectWs(): void {
     if (this.socket) return;
 
     this.socket = new WebSocket(WEB_SOCKET_URL);
@@ -20,6 +20,12 @@ export class GameWsService {
     this.socket.onopen = () => {
       this.isConnected.set(true);
       const token = this.authService.accessToken();
+
+      if (!token) {
+        console.error('there is no token');
+        return;
+      }
+
       this.sendMessage(`/auth ${token}`);
     };
 
@@ -31,6 +37,10 @@ export class GameWsService {
       this.isConnected.set(false);
       this.socket = null;
     };
+  }
+
+  public connectToRandomGame() {
+    this.sendMessage('/connect');
   }
 
   public sendMessage(msg: string): void {

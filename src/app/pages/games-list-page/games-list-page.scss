@@ -1,0 +1,43 @@
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: safe center;
+  min-height: inherit;
+  gap: 2rem;
+  padding: 1rem;
+  max-width: fit-content;
+  align-self: center;
+  justify-self: center;
+
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  .center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 0;
+    border: 3px solid var(--shadow-blue);
+    border-radius: 12px;
+  }
+
+  .bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    width: 100%;
+  }
+}
