@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+
+  .from {
+    color: var(--blue);
+  }
+
+  .message {
+    color: var(--blue-active);
+  }
+}

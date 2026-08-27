@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="chat" #chatContainer>
+    @for (message of this.gameService()?.chatHistory(); track message) {
+      <chat-message [from]="message.from" [message]="message.message" />
+    }
+  </div>
+  <form class="inputs" [formGroup]="form" (ngSubmit)="onFormSubmit()">
+    <div class="input-container">
+      <app-input
+        [hideErrors]="true"
+        [placeholder]="'Type message here'"
+        [value]="form.get('message')!.value"
+        (valueChange)="onChangeMessage($event)"
+      />
+    </div>
+    <app-button [type]="'submit'">Send</app-button>
+  </form>
+</div>

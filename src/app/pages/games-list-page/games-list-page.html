@@ -1,0 +1,21 @@
+<div class="container">
+  <app-modal #gameWaitingModal
+    [isOpen]="gameService.isWaitingForTheGame()"
+  >
+    Waiting for opponent...
+  </app-modal>
+  <div class="top">
+    <app-button
+      (click)="logout()"
+      [variant]="APP_BUTTON_VARIANT.DANGER"
+    >
+    Logout
+  </app-button>
+  </div>
+  <div class="center">
+    <games-list />
+  </div>
+  <div class="bottom">
+    <app-button (click)="connectToRandomGame()">Random game</app-button>
+  </div>
+</div>
