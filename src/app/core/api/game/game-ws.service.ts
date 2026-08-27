@@ -69,6 +69,10 @@ export class GameWsService {
       const parsed: WsMessage = JSON.parse(rawData);
       console.log('[WS Received]:', parsed);
 
+      if (isChatMessage(parsed)) {
+        this.chatHistory.set(this.chatHistory().concat(parsed));
+      }
+
       if (isGameStartMessage(parsed)) {
         this.router.navigate(['/game']);
         this.isWaitingForTheGame.set(false);
@@ -76,10 +80,7 @@ export class GameWsService {
 
       if (isGameEndMessage(parsed)) {
         this.router.navigate(['/games-list']);
-      }
-
-      if (isChatMessage(parsed)) {
-        this.chatHistory.set(this.chatHistory().concat(parsed));
+        this.chatHistory.set([]);
       }
     } catch (err) {
       console.error('[WS ERROR] Message parsing error:', err);
